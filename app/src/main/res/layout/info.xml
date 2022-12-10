@@ -31,7 +31,7 @@
                 android:textColor="#1768E1" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/infoPersonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -56,7 +56,7 @@
                 android:textColor="#1768E1" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/infolastname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -81,7 +81,7 @@
                 android:textColor="#1768E1" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/infobday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -106,7 +106,7 @@
                 android:textColor="#1768E1" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/infonumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

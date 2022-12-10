@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context?) :
 SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
 
+
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "tododb"
@@ -101,7 +102,6 @@ SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
 
     fun remove(id: Long) {
         val database = this.writableDatabase
-        //database.delete(TABLE_NAME, "$KEY_ID = ?", arrayOf(id.toString()))
         database.delete(TABLE_NAME, "$KEY_ID = ?", arrayOf(id.toString()))
 
         close()
@@ -113,4 +113,29 @@ SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
         close()
     }
 
+    fun getById(id: Long): Contact? {
+        var result: Contact? = null
+        val database = this.writableDatabase
+        val cursor: Cursor = database.query(
+            TABLE_NAME, null, "$KEY_ID = ?", arrayOf(id.toString()),
+            null, null, null
+        )
+        if (cursor.moveToFirst()) {
+            val idIndex: Int = cursor.getColumnIndex(KEY_ID)
+            val fnameIndex: Int = cursor.getColumnIndex(KEY_firstName)
+            val lnameIndex: Int = cursor.getColumnIndex(KEY_lastName)
+            val bdayIndex: Int = cursor.getColumnIndex(KEY_databirth)
+            val numberIndex: Int = cursor.getColumnIndex(KEY_number)
+            result = Contact(
+                cursor.getLong(idIndex),
+                cursor.getString(fnameIndex),
+                cursor.getString(lnameIndex),
+                cursor.getString(bdayIndex),
+                cursor.getString(numberIndex),
+                //cursor.getInt(lnameIndex) == 1
+            )
+        }
+        cursor.close()
+        return result
+    }
 }

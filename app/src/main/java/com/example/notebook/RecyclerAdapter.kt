@@ -33,6 +33,7 @@ class RecyclerAdapter(private val list: List<Contact>, val onClick: (index: Int)
         val button = itemView.findViewById<Button>(R.id.button_info)
 
 
+
     }
 
 

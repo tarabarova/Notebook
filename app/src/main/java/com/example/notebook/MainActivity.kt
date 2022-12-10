@@ -2,6 +2,7 @@ package com.example.notebook
 
 import android.app.Activity
 import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val START_CREATE_CODE = 1
+        const val EXTRA_ID = "id";
     }
 
     private val dbHelper = DBHelper(this)
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         adapter = RecyclerAdapter(list) {
 
             val intent = Intent(this, INFO::class.java)
+            intent.putExtra(EXTRA_ID,list[it].id)
             startActivity(intent)
             /*val buttonINFO= findViewById<Button>(R.id.button_info)*/
         }
