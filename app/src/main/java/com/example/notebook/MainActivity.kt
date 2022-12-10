@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -32,13 +33,14 @@ class MainActivity : AppCompatActivity() {
 
 
         // создаём инстанс адаптера, отдаём ему список
-        adapter = RecyclerAdapter(list) {
+        adapter = RecyclerAdapter() {
 
             val intent = Intent(this, INFO::class.java)
             intent.putExtra(EXTRA_ID,list[it].id)
             startActivity(intent)
             /*val buttonINFO= findViewById<Button>(R.id.button_info)*/
         }
+        adapter.updateList(list)
 
 
 
@@ -56,6 +58,18 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, START_CREATE_CODE)
 
 
+        }
+
+        editText.addTextChangedListener { filter ->
+            val filterStr = filter.toString()
+            if (filterStr.isBlank()) {
+                adapter.updateList(list)
+            } else {
+                val filteredList = list.filter {
+                    it.firstName.contains(filterStr, true) || it.lastName.contains(filterStr, true)
+                }
+                adapter.updateList(filteredList)
+            }
         }
 
 

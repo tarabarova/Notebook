@@ -9,7 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notebook.Contact
 import com.example.notebook.R
 
-class RecyclerAdapter(private val list: List<Contact>, val onClick: (index: Int) -> Unit): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(val onClick: (index: Int) -> Unit): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    private val list = mutableListOf<Contact>()
+
+    fun updateList(newList: List<Contact>) {
+        list.clear()
+        list.addAll(newList)
+        this.notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
