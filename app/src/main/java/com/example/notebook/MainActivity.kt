@@ -1,50 +1,73 @@
 package com.example.notebook
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+
 class MainActivity : AppCompatActivity() {
+
     companion object {
         const val START_CREATE_CODE = 1
     }
+
+    private val dbHelper = DBHelper(this)
+
+    private val list = mutableListOf<Contact>()
+
+    lateinit var adapter: RecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val list = mutableListOf<Contact>()
-        val adapter = RecyclerAdapter(list)
+
+        list.addAll(dbHelper.getAll())
+
+
+        // создаём инстанс адаптера, отдаём ему список
+        adapter = RecyclerAdapter(list) {
+
+            val intent = Intent(this, INFO::class.java)
+            startActivity(intent)
+            /*val buttonINFO= findViewById<Button>(R.id.button_info)*/
+        }
+
+
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        // у нас будет линейный список
         recyclerView.layoutManager = LinearLayoutManager(this)
+        // прикручиваем адаптер к RecyclerView
         recyclerView.adapter = adapter
 
-        val buttonAdd = findViewById<Button>(R.id.button_main)
-// реакция на нажатие
-        buttonAdd.setOnClickListener {
-            // добавляем элемент в список
-            val editText = findViewById<EditText>(R.id.editText)
-            val button = findViewById<Button>(R.id.button_main)
+        val editText: EditText = findViewById<EditText>(R.id.editText)
+        val button = findViewById<Button>(R.id.button_main)
+        button.setOnClickListener {
 
-            list.add(editText.text.toString())
-            // извещаем адаптер об изменениях
-            adapter.notifyItemInserted(list.lastIndex)
+            val intent = Intent(this, editACTIVITY::class.java)
+            startActivityForResult(intent, START_CREATE_CODE)
+
+
         }
 
 
 
 
-// у нас будет линейный список
-        recyclerView.layoutManager = LinearLayoutManager(this)
-// прикручиваем адаптер к RecyclerView
-        recyclerView.adapter = adapter
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == START_CREATE_CODE && resultCode == Activity.RESULT_OK) {
+            list.clear()
+            list.addAll(dbHelper.getAll())
+            adapter.notifyDataSetChanged()
+        }
+
+    }
 }
