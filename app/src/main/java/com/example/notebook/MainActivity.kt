@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,12 +37,11 @@ class MainActivity : AppCompatActivity() {
         adapter = RecyclerAdapter() {
 
             val intent = Intent(this, INFO::class.java)
-            intent.putExtra(EXTRA_ID,list[it].id)
+            intent.putExtra(EXTRA_ID, list[it].id)
             startActivity(intent)
             /*val buttonINFO= findViewById<Button>(R.id.button_info)*/
         }
         adapter.updateList(list)
-
 
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, START_CREATE_CODE)
 
 
-
         }
 
         editText.addTextChangedListener { filter ->
@@ -72,8 +71,10 @@ class MainActivity : AppCompatActivity() {
                 adapter.updateList(filteredList)
             }
         }
-
-
+        /*val TextView: TextView = findViewById<TextView>(R.id.textView)
+        TextView.setOnClickListener {
+            val intent = Intent(this, bluesky::class.java)
+        }*/
 
 
     }
